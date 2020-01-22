@@ -1,19 +1,15 @@
 # game-2048
 
-## For start
-```
--dowload 
--in terminal:
-  -cd 'to folder game-2048'
-  -npm install
-  -npm install vue
-  -npm install -g @vue/cli
-  -npm install vuetify
-  
-```
 ## Project setup
 ```
 npm install
+npm install vue
+npm install -g @vue/cli
+npm install vuetify
+npm i bootstrap,
+npm i bootstrap-vue,
+npm i material-design-icons
+  
 ```
 
 ### Compiles and hot-reloads for development
