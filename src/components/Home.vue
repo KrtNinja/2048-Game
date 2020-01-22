@@ -22,12 +22,12 @@
           </v-btn>
         </td>
         <td style='width:50px'>
-          <v-btn fab dark class="btnnovue">
+          <v-btn fab dark class="btnnovue" @click="moveUp()">
             <v-icon>expand_less</v-icon>
           </v-btn>
         </td>
         <td style='width:50px'>
-          <v-btn fab dark class="btnnovue">
+          <v-btn fab dark class="btnnovue" @click="moveDown()">
             <v-icon>expand_more</v-icon>
           </v-btn>
         </td>
@@ -173,10 +173,8 @@ export default {
                 this.moveChecker = 1
               }
               let counter = 1
-              let counter2 = 0
               while(this.myMass[i][j+counter]==0){
                 counter++
-                counter2++
               }
                 this.$set(this.myMass[i],[j+counter-1],this.myMass[i][j])
                 if(counter!=1){
@@ -191,6 +189,40 @@ export default {
         }
       }
     this.renderElem("вправо")
+    },
+
+    moveUp(){
+      this.moveChecker=0;
+      
+      for(let j=0;j<5;j++){
+        for(let i=1;i<5;i++){
+          if(this.myMass[i][j] != 0){
+            if(this.myMass[i-1][j]==0){
+              this.moveChecker = 1
+            }
+            let x = 0
+            for(let z=1;i-z>-1;z++){
+              if(this.myMass[i-z][j]==0){
+                x++
+              }
+            }
+            this.$set(this.myMass[i-x],[j],this.myMass[i][j])
+            if(x!=0){
+              this.$set(this.myMass[i],[j],0)
+            }
+
+            if(i-x-1>-1){
+              if(this.myMass[i-x-1][j]==this.myMass[i-x][j]){
+                this.$set(this.myMass[i-x-1],[j],this.myMass[i-x-1][j]+this.myMass[i-x][j])
+                this.$set(this.myMass[i-x],[j],0)
+                this.moveChecker = 1
+              }
+            }
+          }
+        }
+      }
+      
+    this.renderElem("вверх")
     },
   }
 }
