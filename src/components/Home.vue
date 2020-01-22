@@ -17,7 +17,7 @@
           </v-btn>
         </td>
         <td style='width:50px'>
-          <v-btn fab dark class="btnnovue">
+          <v-btn fab dark class="btnnovue" @click='moveRight()'>
             <v-icon>chevron_right</v-icon>
           </v-btn>
         </td>
@@ -47,7 +47,8 @@ export default {
   name: 'Home',
 
   data: () => ({
-    myMass:[0,1,2,3,4]
+    myMass:[0,1,2,3,4],
+    moveChecker:0,
   }),
 
 
@@ -96,12 +97,13 @@ export default {
       }
     },
 
-    renderElem(){
+    renderElem(moveWhere){
       let randElem = 0;
       let counter = 0;
       let loseCout = 0;
       let q = -1;
       let p = -1;
+      
 
       for(let z=0;z<5;z++){
         if(this.myMass[z].indexOf(0) == -1){
@@ -111,6 +113,10 @@ export default {
           }
 
         }
+      }
+
+      if(this.moveChecker==0){
+        return alert("Движение " + moveWhere + " не дает никаких результатов, попробуйте другие направления :)")
       }
 
       for(let z=0;z<1;){
@@ -132,12 +138,12 @@ export default {
     },
 
     moveLeft(){
-      let moveChecker=0;
+      this.moveChecker=0;
       for(let i=0;i<5;i++){
         for(let j=1;j<5;j++){
             if(this.myMass[i][j]!=0){
               if(this.myMass[i][j-1]==0){
-                moveChecker = 1
+                this.moveChecker = 1
               }
               let counter = 1
               let counter2 = 0
@@ -150,17 +156,41 @@ export default {
               if(this.myMass[i][j-counter]==this.myMass[i][j-counter2]){
                 this.$set(this.myMass[i],[j-counter],this.myMass[i][j-counter]+this.myMass[i][j-counter2])
                 this.$set(this.myMass[i],[j-counter2],0)
-                moveChecker = 1
+                this.moveChecker = 1
               }
             }
         }
       }
-    if(moveChecker==1){
-      this.renderElem()
-    }
-    else if((moveChecker==0)){
-      alert("Движение влево не дает никаких результатов, попробуйте другие направления :)")
-    }
+    this.renderElem("влево")
+    },
+
+    moveRight(){
+      this.moveChecker=0;
+      for(let i=4;i>=0;i--){
+        for(let j=3;j>=0;j--){
+            if(this.myMass[i][j]!=0){
+              if(this.myMass[i][j+1]==0){
+                this.moveChecker = 1
+              }
+              let counter = 1
+              let counter2 = 0
+              while(this.myMass[i][j+counter]==0){
+                counter++
+                counter2++
+              }
+                this.$set(this.myMass[i],[j+counter-1],this.myMass[i][j])
+                if(counter!=1){
+                  this.$set(this.myMass[i],[j],0)
+                }
+              if(this.myMass[i][j+counter-1]==this.myMass[i][j+counter]){
+                this.$set(this.myMass[i],[j+counter],this.myMass[i][j+counter-1]+this.myMass[i][j+counter])
+                this.$set(this.myMass[i],[j+counter-1],0)
+                this.moveChecker = 1
+              }
+            }
+        }
+      }
+    this.renderElem("вправо")
     },
   }
 }
