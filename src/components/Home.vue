@@ -224,6 +224,42 @@ export default {
       
     this.renderElem("вверх")
     },
+
+    moveDown(){
+      this.moveChecker=0;
+      
+      for(let j=0;j<5;j++){
+        for(let i=4;i>=0;i--){
+          if(this.myMass[i][j] != 0){
+            if(i+1<5){
+              if(this.myMass[i+1][j]==0){
+                this.moveChecker = 1
+              }
+            }
+            let x = 0
+            for(let z=1;i+z<5;z++){
+              if(this.myMass[i+z][j]==0){
+                x++
+              }
+            }
+            this.$set(this.myMass[i+x],[j],this.myMass[i][j])
+            if(x!=0){
+              this.$set(this.myMass[i],[j],0)
+            }
+
+            if(i+x+1<5){
+              if(this.myMass[i+x+1][j]==this.myMass[i+x][j]){
+                this.$set(this.myMass[i+x+1],[j],this.myMass[i+x+1][j]+this.myMass[i+x][j])
+                this.$set(this.myMass[i+x],[j],0)
+                this.moveChecker = 1
+              }
+            }
+          }
+        }
+      }
+      
+    this.renderElem("вниз")
+    },
   }
 }
 </script>
