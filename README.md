@@ -1,6 +1,6 @@
 # game-2048
 
-##For start
+## For start
 ```
 -dowload 
 -in terminal:
