@@ -1,10 +1,23 @@
 <template>
   <div>
     <table class="table table-dark table-bordered mt-12" style='width:90%;margin-left:5%'>
+      <tr style='border-bottom:3px solid grey'>
+        <td style='border-right:none;text-align:center;font-size:24px;font-weight:600;'>
+          <span>Score</span>
+        </td>
+        <td colspan="4" style='border-left:none;text-align:center;font-size:24px;font-weight:600;'>
+          <span>{{score}}</span>
+        </td>
+      </tr>
       <tr v-for="mass in myMass" :key='mass.id' style='text-align:center;font-size:24px;font-weight:600;'>
         <td v-for="elem in mass" :key="elem.id" style='width:20%'>
           <span v-if="elem!=0" class='red--text'>{{elem}}</span>
           <span v-else>{{elem}}</span>
+        </td>
+      </tr>
+      <tr>
+        <td v-if='winner==true' colspan="5" class='green--text' style='border:2px solid green;text-align:center;font-size:24px;font-weight:500;'>
+          <span>Вы победили! Поздравляю! <br> Вы можете продолжить играть в бесконечным режиме, удачи! :)</span>
         </td>
       </tr>
     </table>
@@ -49,6 +62,8 @@ export default {
   data: () => ({
     myMass:[0,1,2,3,4],
     moveChecker:0,
+    score:0,
+    winner:false,
   }),
 
 
@@ -68,6 +83,7 @@ export default {
     renderMass(){
       let x =[];
       this.myMass=[];
+      this.score=0;
       let randElem = 0;
       let q=-1
       let p=-1
@@ -93,6 +109,16 @@ export default {
           p = rand2
           this.$set(this.myMass[q],[p],randElem)
           z++
+        }
+      }
+    },
+
+  checkerWin(){
+    for(let i=0;i<5;i++){
+        for(let j=0;j<5;j++){
+          if(this.myMass[i][j]==2048){
+            this.winner=true;
+          }
         }
       }
     },
@@ -135,6 +161,7 @@ export default {
           z++
         }
       }
+      this.checkerWin();
     },
 
     moveLeft(){
@@ -156,6 +183,7 @@ export default {
               if(this.myMass[i][j-counter]==this.myMass[i][j-counter2]){
                 this.$set(this.myMass[i],[j-counter],this.myMass[i][j-counter]+this.myMass[i][j-counter2])
                 this.$set(this.myMass[i],[j-counter2],0)
+                this.score+=this.myMass[i][j-counter]+this.myMass[i][j-counter2];
                 this.moveChecker = 1
               }
             }
@@ -183,6 +211,7 @@ export default {
               if(this.myMass[i][j+counter-1]==this.myMass[i][j+counter]){
                 this.$set(this.myMass[i],[j+counter],this.myMass[i][j+counter-1]+this.myMass[i][j+counter])
                 this.$set(this.myMass[i],[j+counter-1],0)
+                this.score+=this.myMass[i][j+counter-1]+this.myMass[i][j+counter];
                 this.moveChecker = 1
               }
             }
@@ -215,6 +244,7 @@ export default {
               if(this.myMass[i-x-1][j]==this.myMass[i-x][j]){
                 this.$set(this.myMass[i-x-1],[j],this.myMass[i-x-1][j]+this.myMass[i-x][j])
                 this.$set(this.myMass[i-x],[j],0)
+                this.score+=this.myMass[i-x-1][j]+this.myMass[i-x][j]
                 this.moveChecker = 1
               }
             }
@@ -251,6 +281,7 @@ export default {
               if(this.myMass[i+x+1][j]==this.myMass[i+x][j]){
                 this.$set(this.myMass[i+x+1],[j],this.myMass[i+x+1][j]+this.myMass[i+x][j])
                 this.$set(this.myMass[i+x],[j],0)
+                this.score+=this.myMass[i+x+1][j]+this.myMass[i+x][j]
                 this.moveChecker = 1
               }
             }
