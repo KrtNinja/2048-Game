@@ -1,5 +1,16 @@
 # game-2048
 
+##For start
+```
+-dowload 
+-in terminal:
+  -cd 'to folder game-2048'
+  -npm install
+  -npm install vue
+  -npm install -g @vue/cli
+  -npm install vuetify
+  
+```
 ## Project setup
 ```
 npm install
